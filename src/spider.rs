@@ -51,7 +51,7 @@ impl Spider {
         let mut pages_skipped = 0usize;
 
         // Normalise and enqueue the entry URL.
-        let entry = normalise_url(&self.args.url)?;
+        let entry = normalise_url(self.args.url.as_deref().unwrap_or_default())?;
         queue.push_back((entry.clone(), 0));
         visited.insert(entry);
 

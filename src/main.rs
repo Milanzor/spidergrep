@@ -1,6 +1,7 @@
 mod cli;
 mod fetcher;
 mod spider;
+mod update;
 
 use anyhow::Result;
 use clap::Parser;
@@ -15,13 +16,20 @@ use fetcher::HttpFetcher;
 use spider::{extract_base_host, Spider, SpiderResult};
 
 const DEFAULT_USER_AGENT: &str =
-    "Mozilla/5.0 (compatible; spidergrep/0.1; +https://github.com/spidergrep)";
+    "Mozilla/5.0 (compatible; spidergrep/0.1; +https://github.com/Milanzor/spidergrep)";
 
 #[tokio::main]
 async fn main() -> Result<()> {
     let args = Args::parse();
 
-    let pattern = args.pattern.clone();
+    if args.update {
+        return update::run().await;
+    }
+
+    // Safe to unwrap — clap enforces these are present when --update is absent.
+    let url = args.url.as_deref().unwrap();
+    let pattern = args.pattern.as_deref().unwrap().to_string();
+
     let regex = RegexBuilder::new(&pattern)
         .case_insensitive(!args.case_sensitive)
         .build()
@@ -33,7 +41,7 @@ async fn main() -> Result<()> {
         .unwrap_or(DEFAULT_USER_AGENT)
         .to_string();
 
-    let base_host = extract_base_host(&args.url)?;
+    let base_host = extract_base_host(url)?;
 
     let quiet = args.quiet;
     let verbose = args.verbose;
@@ -45,7 +53,7 @@ async fn main() -> Result<()> {
             "spidergrep".bold().cyan(),
             "starting".dimmed(),
             pattern.yellow(),
-            args.url.cyan()
+            url.cyan()
         );
         if verbose >= 3 {
             eprintln!("  user-agent : {user_agent}");

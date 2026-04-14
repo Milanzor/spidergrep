@@ -9,10 +9,12 @@ use clap::Parser;
 )]
 pub struct Args {
     /// Entry URL to start crawling from
-    pub url: String,
+    #[arg(required_unless_present = "update")]
+    pub url: Option<String>,
 
     /// Pattern to search for (regex supported)
-    pub pattern: String,
+    #[arg(required_unless_present = "update")]
+    pub pattern: Option<String>,
 
     /// Custom User-Agent header
     #[arg(short = 'A', long, value_name = "UA")]
@@ -65,4 +67,8 @@ pub struct Args {
     /// Maximum concurrent requests
     #[arg(short = 'j', long, default_value_t = 4, value_name = "N")]
     pub concurrency: usize,
+
+    /// Check for a newer release and update the binary in place
+    #[arg(long)]
+    pub update: bool,
 }

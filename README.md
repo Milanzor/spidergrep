@@ -4,14 +4,23 @@ Crawls all pages on a domain and reports every URL where a pattern (regex) is fo
 
 ## Install
 
-### Pre-built binary
-
-Download the latest binary for your platform from the [releases page](../../releases), make it executable, and move it to your PATH:
+### One-liner (Linux & macOS)
 
 ```sh
-chmod +x spidergrep
-mv spidergrep ~/.local/bin/
+curl -fsSL https://raw.githubusercontent.com/Milanzor/spidergrep/main/install.sh | sh
 ```
+
+Installs the latest release to `/usr/local/bin`. Detects your OS and architecture automatically.
+
+### Windows (PowerShell)
+
+```powershell
+irm https://raw.githubusercontent.com/Milanzor/spidergrep/main/install.ps1 | iex
+```
+
+### Manual
+
+Download the archive for your platform from the [releases page](https://github.com/Milanzor/spidergrep/releases), extract it, and move the binary to your PATH.
 
 ### Build from source
 
@@ -69,3 +78,7 @@ spidergrep https://example.com "price" -o results.txt
 | 0    | One or more matches found |
 | 1    | No matches found |
 | 2    | Error (bad URL, invalid regex, network failure, …) |
+
+---
+
+This project was developed with the assistance of Claude (Anthropic AI).

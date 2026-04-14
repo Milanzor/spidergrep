@@ -9,9 +9,14 @@ anyhow = "1.0"
 async-trait = "0.1"
 clap = { version = "4.6", features = ["derive"] }
 colored = "3.1"
+flate2 = "1.1"
 indicatif = "0.18"
 regex = "1.12"
-reqwest = { version = "0.13", features = ["rustls"], default-features = false }
+reqwest = { version = "0.13", features = ["rustls", "json"], default-features = false }
 scraper = "0.26"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tar = "0.4"
+zip = { version = "8.5", default-features = false }
 tokio = { version = "1.51", features = ["full"] }
 url = "2.5"
