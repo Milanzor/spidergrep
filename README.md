@@ -10,7 +10,9 @@ Crawls all pages on a domain and reports every URL where a pattern (regex) is fo
 curl -fsSL https://raw.githubusercontent.com/Milanzor/spidergrep/main/install.sh | sh
 ```
 
-Installs the latest release to `/usr/local/bin`. Detects your OS and architecture automatically.
+Installs the latest release to `~/.local/bin`. Detects your OS and architecture automatically. Make sure `~/.local/bin` is on your `PATH` (it usually is by default; if not, add `export PATH="$HOME/.local/bin:$PATH"` to your shell profile).
+
+To install system-wide instead: `INSTALL_DIR=/usr/local/bin curl -fsSL ... | sh` (requires sudo).
 
 ### Windows (PowerShell)
 

@@ -3,7 +3,7 @@ set -e
 
 REPO="Milanzor/spidergrep"
 BIN="spidergrep"
-INSTALL_DIR="/usr/local/bin"
+INSTALL_DIR="${INSTALL_DIR:-$HOME/.local/bin}"
 
 # Detect OS
 case "$(uname -s)" in
@@ -52,17 +52,8 @@ curl -fsSL "$URL" -o "/tmp/${ARCHIVE}"
 echo "Extracting..."
 tar -xzf "/tmp/${ARCHIVE}" -C /tmp
 
-# Install (try /usr/local/bin, fall back to ~/.local/bin)
-if [ -w "$INSTALL_DIR" ]; then
-  mv "/tmp/${BIN}" "${INSTALL_DIR}/${BIN}"
-elif command -v sudo >/dev/null 2>&1; then
-  sudo mv "/tmp/${BIN}" "${INSTALL_DIR}/${BIN}"
-else
-  INSTALL_DIR="$HOME/.local/bin"
-  mkdir -p "$INSTALL_DIR"
-  mv "/tmp/${BIN}" "${INSTALL_DIR}/${BIN}"
-  echo "Installed to ${INSTALL_DIR}/${BIN} (add ~/.local/bin to your PATH if needed)"
-fi
+mkdir -p "$INSTALL_DIR"
+mv "/tmp/${BIN}" "${INSTALL_DIR}/${BIN}"
 
 chmod +x "${INSTALL_DIR}/${BIN}"
 rm -f "/tmp/${ARCHIVE}"
